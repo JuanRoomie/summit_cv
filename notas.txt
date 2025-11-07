@@ -1,0 +1,24 @@
+
+correr docker
+t=ultralytics/ultralytics:latest-jetson-jetpack5 && sudo docker pull $t && sudo docker run -it --ipc=host --runtime=nvidia -v "$(pwd):/CV_solutions" --network host $t
+
+correr docker custom
+docker run --rm -it --network host -v "$(pwd):/CV_solutions" --runtime nvidia yolo_jetson_custom:latest
+
+
+script
+Detector de cajas
+python3 rtsp_yolo_to_rtsp_v6.py --in_rtsp "rtsp://admin:R00m13b0t@192.168.1.50:554" --model best.pt --name retail --imgw 640 --imgh 384
+
+self checkout
+python3 selfcheckout.py   --in_rtsp rtsp://admin:R00m13b0t@192.168.1.50:554/   --model bimbo.engine   --name retail   --roi "0.10,0.45; 0.60,0.45; 0.60,1.00; 0.10,1.00"  --roi-name zona_productos   --api-base http://192.168.1.72:8000   --station caja-01   --session-refresh-frames 30   --min-inside 1   --send-exit   --exit-grace 12   --exit-action decrement   --map "coke:SKU_COCA,7:SKU_CLASS7,chips:SKU_CHIPS"   --imgw 640   --imgh 384
+
+python3 rtsp_yolo_to_rtsp_v6.py --in_rtsp "rtsp://admin:R00m13b0t@192.168.1.20:554" --model yolo11s.engine --name retail --imgw 640 --imgh 384
+
+mediamtx
+docker run --rm -it --network host -v /home/roomie_jet1/yolo-ws/mediamtx.yml:/mediamtx.yml bluenviron/mediamtx:latest
+
+convertir a tensorrt
+yolo export format=engine imgsz=384,640 half=true simplify=true batch=1 device=0 model=best.pt
+
+python3 edit_zones.py   --rtsp rtsp://admin:R00m13b0t@192.168.1.20:554   --out zona_restringida_points.json

@@ -1,0 +1,28 @@
+tracker_type: botsort
+fuse_score: false
+# Detección / matching
+track_high_thresh: 0.42
+track_low_thresh: 0.08
+new_track_thresh: 0.82     # evita crear IDs nuevos por ruido
+match_thresh: 0.94         # matching más estricto
+
+# Persistencia (oclusiones)
+track_buffer: 180          # ~7.2 s @25fps de vida del track
+frame_rate: 25             # pon tu FPS real
+
+# Movimiento global
+gmc_method: sparseOptFlow
+proximity_thresh: 0.5
+
+# Apariencia (desactivado en esta versión)
+with_reid: false
+appearance_thresh: 0.0
+
+min_box_area: 20
+mot20: false
+max_per_image: 100
+
+proximity_thresh: 0.5 # (float) Min IoU to consider tracks proximate for ReID; higher is stricter
+appearance_thresh: 0.8 # (float) Min appearance similarity for ReID; raise to avoid identity swaps
+with_reid: False # (bool) Enable ReID model use; needs extra model and compute
+model: "CV_solutions/yolo-pipelines/yolo11n-cls.engine" # (str) ReID model name/path; "auto" uses detector features if available

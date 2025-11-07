@@ -1,0 +1,60 @@
+# -------- Global ----------
+logLevel: info
+# amortigua ráfagas de salida (sube si aún ves rebuffer)
+writeQueueSize: 2048
+# (opcional) tolera operaciones lentas
+readTimeout: 15s
+writeTimeout: 15s
+
+# -------- RTSP (publicación desde tu script) ----------
+rtsp: yes
+# en localhost, usa solo TCP para máxima estabilidad
+rtspTransports: [tcp]
+rtspEncryption: "no"
+rtspAddress: :8554
+# si alguna vez usas UDP, puedes subir el buffer:
+rtspUDPReadBufferSize: 0
+
+# -------- HLS (fallback y pruebas) ----------
+hls: yes
+hlsAddress: :8888
+hlsAllowOrigin: "*"
+# Opción A (recomendada): Low-Latency HLS (fMP4 con parts)
+hlsVariant: lowLatency
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms #200ms
+hlsSegmentCount: 8 #8
+hlsSegmentMaxSize: 50M
+hlsAlwaysRemux: yes
+# (si prefieres TS clásico, cambia a: hlsVariant: mpegts, hlsSegmentDuration: 2s, hlsSegmentCount: 5, hlsPartDuration: 0s)
+
+# -------- WebRTC (muy baja latencia) ----------
+webrtc: yes
+# listener UDP local para WebRTC (deja por defecto si usas --network host)
+webrtcLocalUDPAddress: :8189
+# (si expones fuera de LAN, añade STUN/TURN y candidatos)
+
+# -------- Paths ----------
+paths:
+  retail:
+    source: publisher
+    # publishUser: admin
+    # publishPass: 1234
+  damaged:
+    source: publisher
+
+  products:
+    source: publisher
+
+  people:
+    source: publisher
+
+  gender:
+    source: publisher
+    
+  people-beh:
+    source: publisher
+    
+  robo:
+    source: publisher
+

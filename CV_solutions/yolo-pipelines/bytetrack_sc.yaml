@@ -1,0 +1,14 @@
+# bytetrack_sc.yaml (para retail, IDs más pegajosos)
+tracker_type: bytetrack
+
+# ¡clave que falta!
+fuse_score: false
+
+track_high_thresh: 0.45
+track_low_thresh: 0.10
+new_track_thresh: 0.65
+match_thresh: 0.86
+track_buffer: 60
+min_box_area: 10
+mot20: false
+frame_rate: 25
