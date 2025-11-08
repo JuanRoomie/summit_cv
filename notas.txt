@@ -22,3 +22,14 @@ convertir a tensorrt
 yolo export format=engine imgsz=384,640 half=true simplify=true batch=1 device=0 model=best.pt
 
 python3 edit_zones.py   --rtsp rtsp://admin:R00m13b0t@192.168.1.20:554   --out zona_restringida_points.json
+
+
+
+# En tu carpeta con Dockerfile y requirements-additions.txt
+sudo docker build --platform=linux/arm64 -t yolo_jetson_custom:jetpack5-plus .
+
+# Probar (con runtime NVIDIA si usas aceleración)
+sudo docker run --rm -it --runtime=nvidia \
+  --ipc=host \
+  yolo_jetson_custom:jetpack5-plus \
+  python3 -c "import torch, onnxruntime as ort, openvino; print('OK')"
